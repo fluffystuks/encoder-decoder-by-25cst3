@@ -50,35 +50,22 @@ async def handle_decrypt_text(update, context):
 
     if s["step"] == "key":
         key = update.message.text.replace(" ", "")
-        if not key:
-            await update.message.reply_text("Ключ не может быть пустым. Введите ключ:")
-            return
-        if not all(ch.upper() in ABC_RU for ch in key):
-            await update.message.reply_text("Ключ должен содержать только русские буквы (А-Я, Ё). Введите ключ снова:")
-            return
         s["key"] = key
         s["step"] = "text"
         await update.message.reply_text("Введите текст:")
         return
 
     text = update.message.text
-
-    try:
-        if mode == "decrypt_atbash":
-            res = atbash_encrypt(text)
-        elif mode == "decrypt_atbash_ascii":
-            res = atbash_encrypt_ASCII(text)
-        elif mode == "decrypt_vigenere":
-            res = vigenere_decoder(text, s["key"])
-        elif mode == "decrypt_caesar_ru":
-            res = shift_decrypt(text, s["shift"])
-        elif mode == "decrypt_caesar_ascii":
-            res = shift_decrypt_ASCII(text, s["shift"])
-        else:
-            res = "Неизвестный режим"
-    except Exception as e:
-        await update.message.reply_text(f"Ошибка при расшифровке: {e}")
-        return
+    if mode == "decrypt_atbash":
+        res = atbash_encrypt(text)
+    elif mode == "decrypt_atbash_ascii":
+        res = atbash_encrypt_ASCII(text)
+    elif mode == "decrypt_vigenere":
+        res = vigenere_decoder(text, s["key"])
+    elif mode == "decrypt_caesar_ru":
+        res = shift_decrypt(text, s["shift"])
+    elif mode == "decrypt_caesar_ascii":
+        res = shift_decrypt_ASCII(text, s["shift"])
 
     await update.message.reply_text(f"Результат:\n{res}")
     decrypt_state.pop(cid, None)
