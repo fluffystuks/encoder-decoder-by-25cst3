@@ -4,6 +4,11 @@ RUS_ALPHABET = [
     "Ы", "Ь", "Э", "Ю", "Я"
 ]
 
+ENG_ALPHABET = [
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+    "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"
+]
+
 ## Шифр Атбаш
 def atbash_encrypt(text):
     result = ""
@@ -15,9 +20,18 @@ def atbash_encrypt(text):
                 result += new_char.lower()
             else:
                 result += new_char
+        elif char.upper() in ENG_ALPHABET:
+            idx = ENG_ALPHABET.index(char.upper())
+            new_char = ENG_ALPHABET[-(idx + 1)]
+            if char.islower():
+                result += new_char.lower()
+            else:
+                result += new_char
         else:
-            result += char
+            result+=char
     return result
+
+
 
 ## Шифр Виженера
 def vigenere_encoder(text, key, decrypt=False):
