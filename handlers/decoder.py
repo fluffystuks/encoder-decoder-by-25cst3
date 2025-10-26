@@ -1,4 +1,4 @@
-from encoder import *
+from handlers.encoder import *
 ## Дешифровка Виженера
 def vigenere_decoder(text, key, decrypt=True):
     abc = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"

@@ -31,8 +31,6 @@ def atbash_encrypt(text):
             result+=char
     return result
 
-
-
 ## Шифр Виженера
 def vigenere_encoder(text, key, decrypt=False):
     abc = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"

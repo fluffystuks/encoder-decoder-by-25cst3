@@ -1,5 +1,6 @@
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-
+from encrypt import encrypt_menu_markup, handle_encrypt_button
+from decrypt import decrypt_menu_markup, handle_decrypt_button
 
 async def start(update, context):
     keyboard = [
@@ -7,24 +8,32 @@ async def start(update, context):
         [InlineKeyboardButton("Расшифровать", callback_data="decrypt")],
         [InlineKeyboardButton("Библиотека шифров", callback_data="library")]
     ]
-    markup = InlineKeyboardMarkup(keyboard)
-
-    await update.message.reply_text(
-        "Выберите действие:",
-        reply_markup =markup
-    )
-
+    await update.message.reply_text("Выберите действие:", reply_markup=InlineKeyboardMarkup(keyboard))
 
 async def handle_buttons(update, context):
-    query = update.callback_query
-    await query.answer()
+    q = update.callback_query
+    await q.answer()
+    d = q.data
 
-    data = query.data
-    if data == "encrypt":
-        await query.edit_message_text("Пустышка")
-    elif data == "decrypt":
-        await query.edit_message_text("Пустышка")
-    elif data == "library":
-        await query.edit_message_text("Пустышка")
-    else:
-        await query.edit_message_text("Пустышка")
+    if d == "encrypt":
+        await q.edit_message_text("Выберите тип шифрования:", reply_markup=encrypt_menu_markup())
+        return
+    if d == "decrypt":
+        await q.edit_message_text("Выберите тип расшифровки:", reply_markup=decrypt_menu_markup())
+        return
+
+    if d.startswith("encrypt_"):
+        await handle_encrypt_button(update, context)
+        return
+    if d.startswith("decrypt_"):
+        await handle_decrypt_button(update, context)
+        return
+
+    if d == "back_to_main":
+        keyboard = [
+            [InlineKeyboardButton("Зашифровать", callback_data="encrypt")],
+            [InlineKeyboardButton("Расшифровать", callback_data="decrypt")],
+            [InlineKeyboardButton("Библиотека шифров", callback_data="library")]
+        ]
+        await q.edit_message_text("Выберите действие:", reply_markup=InlineKeyboardMarkup(keyboard))
+        return
