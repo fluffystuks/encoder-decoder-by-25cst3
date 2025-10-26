@@ -5,8 +5,7 @@ from decrypt import decrypt_menu_markup, handle_decrypt_button
 async def start(update, context):
     keyboard = [
         [InlineKeyboardButton("Зашифровать", callback_data="encrypt")],
-        [InlineKeyboardButton("Расшифровать", callback_data="decrypt")],
-        [InlineKeyboardButton("Библиотека шифров", callback_data="library")]
+        [InlineKeyboardButton("Расшифровать", callback_data="decrypt")]
     ]
     await update.message.reply_text("Выберите действие:", reply_markup=InlineKeyboardMarkup(keyboard))
 
@@ -32,8 +31,7 @@ async def handle_buttons(update, context):
     if d == "back_to_main":
         keyboard = [
             [InlineKeyboardButton("Зашифровать", callback_data="encrypt")],
-            [InlineKeyboardButton("Расшифровать", callback_data="decrypt")],
-            [InlineKeyboardButton("Библиотека шифров", callback_data="library")]
+            [InlineKeyboardButton("Расшифровать", callback_data="decrypt")]
         ]
         await q.edit_message_text("Выберите действие:", reply_markup=InlineKeyboardMarkup(keyboard))
         return
