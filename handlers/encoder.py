@@ -4,6 +4,7 @@ RUS_ALPHABET = [
     "Ы", "Ь", "Э", "Ю", "Я"
 ]
 
+## Шифр Атбаш
 def atbash_encrypt(text):
     result = ""
     for char in text:
@@ -17,8 +18,9 @@ def atbash_encrypt(text):
         else:
             result += char
     return result
-  
-  def vigenere_encoder(text, key, decrypt=False):
+
+## Шифр Виженера
+def vigenere_encoder(text, key, decrypt=False):
     abc = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ"
     res = ""
     for i, ch in enumerate(text.upper()):
@@ -31,6 +33,22 @@ def atbash_encrypt(text):
 
     return res
 
+## Обычный шифр Цезаря используя русский алфавит
+def shift_encrypt(text,shift):
+    result = ""
+    for char in text:
+        if char.upper() in RUS_ALPHABET:
+            idx = RUS_ALPHABET.index(char.upper())
+            new_char = RUS_ALPHABET[(idx+shift)%len(RUS_ALPHABET)]
+            if char.islower():
+                result+=new_char.lower()
+            else:
+                result+=new_char
+        else:
+            result += char
+    return result
+
+## Шифр Цезаря но по таблице ASCII
 def shift_encrypt_ASCII(text, shift):
     result = ""
     for char in text:
@@ -42,6 +60,18 @@ def shift_encrypt_ASCII(text, shift):
                 new_code = 127 - (32 - (code + shift))
             else:
                 new_code = code + shift
+            result += chr(new_code)
+        else:
+            result += char
+    return result
+
+## Шифр Атбаш но по таблице ASCII
+def atbash_encrypt_ASCII(text):
+    result = ""
+    for char in text:
+        code = ord(char)
+        if 32 <= code <= 126:
+            new_code = 32 + (126 - code)
             result += chr(new_code)
         else:
             result += char
